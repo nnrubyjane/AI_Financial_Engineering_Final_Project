@@ -2,7 +2,7 @@
 
 Final project for the university course **Artificial Intelligence and Financial Engineering**.
 
-This project is educational and beginner-friendly. It is not a production trading system and it is not a full GPT-2 implementation. The goal is to show the main ideas clearly enough to explain them function by function in an oral test.
+This project is educational and beginner-friendly. It is not a production trading system. This project is an educational small-scale GPT-2 style implementation. It includes the core GPT-2 components such as token embedding, positional embedding, masked multi-head self-attention, feed-forward network, transformer block, and text generation. The purpose is to demonstrate the structure clearly enough for function-by-function explanation in an oral test.
 
 ## Project Overview
 
