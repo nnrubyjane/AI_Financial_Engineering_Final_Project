@@ -1,0 +1,4 @@
+=== Mini GPT-2 Text Generation Demo ===
+Block size: 32
+Prompt: ai
+Generated text: aikel ol nd bud lear gpt. caler a morar padet bud. mo. ol lder ar gp han od fl olk

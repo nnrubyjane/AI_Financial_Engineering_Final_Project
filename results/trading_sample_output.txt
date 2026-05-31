@@ -1,0 +1,10 @@
+=== Mock KIS API Trading System Demo ===
+Mode: MOCK
+Dry run: True
+Access token concept: mock_access_token
+Stock symbol: 005930
+Current price: 71,500 KRW
+Moving average: 73,300.00 KRW
+Generated signal: BUY
+Explanation: Current price is below the moving average by more than the threshold, so the mock strategy prints BUY.
+Order status: No real order was placed. This is a simulation only.
