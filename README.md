@@ -9,7 +9,7 @@ The project has two connected parts:
 1. A mock automatic trading walkthrough inspired by the Korea Investment Securities API, also called 한국투자증권 API or KIS API.
 2. A small-scale educational GPT-2 style implementation with the main transformer components.
 
-The GPT-2 part includes token embedding, positional embedding, masked multi-head self-attention, feed-forward network, transformer block, and text generation. The purpose is to demonstrate the structure clearly enough for beginner-level explanation.
+The GPT-2 part includes token embedding, positional embedding, masked multi-head self-attention, feed-forward network, transformer block, and text generation. The purpose is to make the main GPT-2 structure clear through a small runnable example.
 
 ## Project Structure
 
@@ -474,4 +474,3 @@ This repository is safe to upload publicly because:
 - Dry-run mode is the default.
 - Real trading is disabled.
 - Real API functions are templates only.
-
