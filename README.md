@@ -68,6 +68,20 @@ Run the GPT text generation demo:
 python -m gpt2_demo.generate_demo
 ```
 
+## Running Results
+
+### Mock KIS Trading System Result
+
+The screenshot below shows the mock KIS trading walkthrough running in the terminal. The system uses mock price data, runs with dry_run=True, generates a simulated BUY / SELL / HOLD signal, and does not place any real order.
+
+![Trading Result](images/trading_result.png)
+
+### Mini GPT-2 Training and Generation Result
+
+The screenshot below shows the mini GPT-2 demo running in the terminal. The training loss decreases during the small training demo, and the generation script produces a short sample text. The generated text is not fluent because the model is very small and trained on a tiny dataset, but it demonstrates the basic training and text generation workflow.
+
+![GPT Result](images/gpt_result.png)
+
 ## Part 1: My Mock KIS Trading Walkthrough
 
 ### What This Part Shows
