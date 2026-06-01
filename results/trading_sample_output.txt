@@ -1,10 +1,11 @@
-=== Mock KIS API Trading System Demo ===
-Mode: MOCK
-Dry run: True
-Access token concept: mock_access_token
-Stock symbol: 005930
-Current price: 71,500 KRW
-Moving average: 73,300.00 KRW
-Generated signal: BUY
-Explanation: Current price is below the moving average by more than the threshold, so the mock strategy prints BUY.
-Order status: No real order was placed. This is a simulation only.
+=== My Mock KIS Trading Walkthrough ===
+Practice mode: mock prices
+Safety switch: dry_run=True
+Lesson token: mock_access_token
+Classroom stock code: 005930
+Latest mock price: 71,700 KRW
+Five-price average: 73,100.00 KRW
+My strategy signal: BUY
+Reason I can explain: The price is 1.92% below the moving average, which is more than the 1.8% buffer. My demo prints BUY.
+Risk note: A real system should check cash, position size, stop-loss, and daily loss limit before any order. This demo stops at a printed signal.
+Execution note: No real order was placed. This is a simulation only.

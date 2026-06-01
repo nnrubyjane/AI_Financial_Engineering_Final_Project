@@ -1,8 +1,8 @@
-"""A very small GPT-style model for educational use.
+"""Small-scale GPT-2 style model for my educational demo.
 
-This is not a full GPT-2 model. It is a tiny character-level transformer that
-shows the same main ideas: embeddings, masked self-attention, transformer
-blocks, and text generation.
+The model is intentionally tiny, but it still follows the GPT idea: turn
+characters into vectors, use masked attention, stack transformer blocks, and
+generate one new character at a time.
 """
 
 import torch
@@ -11,7 +11,7 @@ import torch.nn.functional as F
 
 
 class CharTokenizer:
-    """Simple character tokenizer for a tiny text dataset."""
+    """Character tokenizer so I do not need a large vocabulary file."""
 
     def __init__(self, text):
         self.chars = sorted(list(set(text)))
@@ -20,11 +20,11 @@ class CharTokenizer:
         self.vocab_size = len(self.chars)
 
     def encode(self, text):
-        """Convert text into a list of token IDs."""
+        """Change each character into the number the model understands."""
         return [self.char_to_id[char] for char in text]
 
     def decode(self, token_ids):
-        """Convert token IDs back into text."""
+        """Change generated numbers back into readable characters."""
         return "".join(self.id_to_char[token_id] for token_id in token_ids)
 
 
@@ -34,7 +34,7 @@ class MultiHeadSelfAttention(nn.Module):
     Q means query: what this position is looking for.
     K means key: what each position contains.
     V means value: the information copied after attention chooses where to look.
-    The mask prevents the model from seeing future characters.
+    The mask is the important GPT rule: do not look at future characters.
     """
 
     def __init__(self, embedding_size, num_heads, block_size):
@@ -50,6 +50,7 @@ class MultiHeadSelfAttention(nn.Module):
         self.value = nn.Linear(embedding_size, embedding_size)
         self.projection = nn.Linear(embedding_size, embedding_size)
 
+        # Lower-triangle mask: position 5 can see positions 1-5, but not 6.
         mask = torch.tril(torch.ones(block_size, block_size))
         self.register_buffer("mask", mask.view(1, 1, block_size, block_size))
 
@@ -68,6 +69,7 @@ class MultiHeadSelfAttention(nn.Module):
         k = k.transpose(1, 2)
         v = v.transpose(1, 2)
 
+        # Compare Q with K to decide which earlier characters matter most.
         attention_scores = q @ k.transpose(-2, -1)
         attention_scores = attention_scores / (self.head_size ** 0.5)
         attention_scores = attention_scores.masked_fill(
@@ -75,6 +77,7 @@ class MultiHeadSelfAttention(nn.Module):
             float("-inf"),
         )
 
+        # Softmax turns scores into weights that add up to 1.
         attention_weights = F.softmax(attention_scores, dim=-1)
         attention_output = attention_weights @ v
 
@@ -84,7 +87,7 @@ class MultiHeadSelfAttention(nn.Module):
 
 
 class FeedForward(nn.Module):
-    """Small neural network used after attention in each transformer block."""
+    """A small extra network that processes each position after attention."""
 
     def __init__(self, embedding_size):
         super().__init__()
@@ -99,7 +102,7 @@ class FeedForward(nn.Module):
 
 
 class TransformerBlock(nn.Module):
-    """One GPT-style block: attention, feed-forward network, and residual paths."""
+    """One repeatable GPT-style block: attention first, then feed-forward."""
 
     def __init__(self, embedding_size, num_heads, block_size):
         super().__init__()
@@ -109,13 +112,14 @@ class TransformerBlock(nn.Module):
         self.layer_norm_2 = nn.LayerNorm(embedding_size)
 
     def forward(self, x):
+        # The "+ x" residual path helps the block keep useful old information.
         x = x + self.attention(self.layer_norm_1(x))
         x = x + self.feed_forward(self.layer_norm_2(x))
         return x
 
 
 class MiniGPT(nn.Module):
-    """A tiny GPT-style language model."""
+    """Tiny language model that predicts the next character."""
 
     def __init__(
         self,
@@ -162,7 +166,7 @@ class MiniGPT(nn.Module):
         return logits, loss
 
     def generate(self, token_ids, max_new_tokens):
-        """Generate text one token at a time."""
+        """Generate text by repeatedly sampling the next character."""
         for _ in range(max_new_tokens):
             context = token_ids[:, -self.block_size :]
             logits, _ = self(context)
@@ -172,4 +176,3 @@ class MiniGPT(nn.Module):
             token_ids = torch.cat([token_ids, next_token], dim=1)
 
         return token_ids
-

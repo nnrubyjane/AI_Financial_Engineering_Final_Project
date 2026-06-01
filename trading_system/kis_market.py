@@ -1,16 +1,18 @@
-"""Market price request example for a KIS-style API workflow."""
+"""Mock market data for the KIS-style API workflow."""
 
 from trading_system import config
 
 
 SAMPLE_PRICE_DATA = {
-    "005930": [73500, 73800, 73600, 73900, 73700, 71500],
-    "000660": [184000, 185500, 186000, 184500, 185000, 188900],
+    # My classroom story: Samsung moved mostly sideways, then dipped today.
+    # That makes the BUY signal easy to explain with a moving average.
+    "005930": [73200, 73500, 73400, 73600, 73300, 71700],
+    "000660": [181500, 182300, 181800, 183200, 182700, 185900],
 }
 
 
 def get_stock_price(access_token, symbol):
-    """Get stock prices from mock data or a safe real-mode template."""
+    """Get price data from mock samples unless real mode is manually enabled."""
     if config.MOCK_MODE:
         return get_mock_stock_price(symbol)
 
@@ -18,7 +20,7 @@ def get_stock_price(access_token, symbol):
 
 
 def get_mock_stock_price(symbol):
-    """Return fake stock price history for the demo."""
+    """Return one small fake price history that is easy to inspect by eye."""
     prices = SAMPLE_PRICE_DATA.get(symbol, SAMPLE_PRICE_DATA["005930"])
 
     return {
@@ -31,7 +33,7 @@ def get_mock_stock_price(symbol):
 def request_real_stock_price_template(access_token, symbol):
     """Show how a real market request would be structured, but keep it disabled.
 
-    A real implementation would usually:
+    If this were a real project, the steps would usually be:
     1. Build request headers with the access token.
     2. Send the stock symbol to the official KIS market price endpoint.
     3. Parse the JSON response and return the current price.
@@ -48,4 +50,3 @@ def request_real_stock_price_template(access_token, symbol):
     raise NotImplementedError(
         "Real KIS market requests are a template only. Mock data is used by default."
     )
-

@@ -1,4 +1,4 @@
-"""Run the full mock trading workflow."""
+"""Run my mock trading workflow from token idea to printed signal."""
 
 from pathlib import Path
 
@@ -9,25 +9,31 @@ from trading_system.strategy import calculate_moving_average, generate_signal
 
 
 def build_output_text(symbol, current_price, moving_average, signal, explanation, token):
-    """Create clear console text for the trading result."""
+    """Create the console report I can read aloud during the oral test."""
+    risk_note = (
+        "Risk note: A real system should check cash, position size, stop-loss, "
+        "and daily loss limit before any order. This demo stops at a printed signal."
+    )
+
     return "\n".join(
         [
-            "=== Mock KIS API Trading System Demo ===",
-            f"Mode: {'MOCK' if config.MOCK_MODE else 'REAL TEMPLATE'}",
-            f"Dry run: {config.DRY_RUN}",
-            f"Access token concept: {token}",
-            f"Stock symbol: {symbol}",
-            f"Current price: {current_price:,.0f} KRW",
-            f"Moving average: {moving_average:,.2f} KRW",
-            f"Generated signal: {signal}",
-            f"Explanation: {explanation}",
-            "Order status: No real order was placed. This is a simulation only.",
+            "=== My Mock KIS Trading Walkthrough ===",
+            f"Practice mode: {'mock prices' if config.MOCK_MODE else 'real API template'}",
+            f"Safety switch: dry_run={config.DRY_RUN}",
+            f"Lesson token: {token}",
+            f"Classroom stock code: {symbol}",
+            f"Latest mock price: {current_price:,.0f} KRW",
+            f"Five-price average: {moving_average:,.2f} KRW",
+            f"My strategy signal: {signal}",
+            f"Reason I can explain: {explanation}",
+            risk_note,
+            "Execution note: No real order was placed. This is a simulation only.",
         ]
     )
 
 
 def save_sample_output(output_text):
-    """Save the demo output to the results folder."""
+    """Save the same text that appears in the terminal."""
     project_root = Path(__file__).resolve().parents[1]
     output_path = project_root / "results" / "trading_sample_output.txt"
     output_path.parent.mkdir(exist_ok=True)
@@ -35,7 +41,7 @@ def save_sample_output(output_text):
 
 
 def run_trading_demo():
-    """Run authentication, market data, strategy, and reporting steps."""
+    """Run the small demo in the same order I would explain it."""
     config.validate_safety_settings()
 
     token = get_access_token()
@@ -64,4 +70,3 @@ def run_trading_demo():
 
 if __name__ == "__main__":
     print(run_trading_demo())
-

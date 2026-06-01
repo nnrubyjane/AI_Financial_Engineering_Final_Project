@@ -1,4 +1,4 @@
-"""Train the tiny GPT-style model for a few quick steps."""
+"""Train my tiny GPT-style model for a few quick classroom-friendly steps."""
 
 import torch
 
@@ -20,14 +20,14 @@ MODEL_SETTINGS = {
 
 
 def create_model_and_tokenizer():
-    """Create the tokenizer and the small model."""
+    """Create the tokenizer and model from the same tiny text sample."""
     tokenizer = CharTokenizer(SAMPLE_TEXT)
     model = MiniGPT(vocab_size=tokenizer.vocab_size, **MODEL_SETTINGS)
     return model, tokenizer
 
 
 def get_batch(data, block_size, batch_size):
-    """Create random training examples from the tiny text."""
+    """Pick short text slices so the model can practice next-character prediction."""
     start_positions = torch.randint(0, len(data) - block_size - 1, (batch_size,))
 
     x = torch.stack([data[start : start + block_size] for start in start_positions])
@@ -38,7 +38,7 @@ def get_batch(data, block_size, batch_size):
 
 
 def train_model(steps=80, show_loss=True):
-    """Train the mini GPT model on the tiny sample text."""
+    """Train the mini GPT model long enough to show the loss going down."""
     torch.manual_seed(42)
 
     model, tokenizer = create_model_and_tokenizer()
@@ -66,7 +66,7 @@ def train_model(steps=80, show_loss=True):
 
 
 def main():
-    """Run the training demo."""
+    """Run the training demo from the terminal."""
     print("=== Mini GPT-2 Training Demo ===")
     print("Training a tiny character-level GPT model on sample text.")
     _, _, final_loss = train_model()
@@ -75,4 +75,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

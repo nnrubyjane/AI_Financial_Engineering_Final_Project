@@ -1,69 +1,56 @@
 # AI Financial Engineering Final Project
 
-Final project for the university course **Artificial Intelligence and Financial Engineering**.
+This is my final project for the university course **Artificial Intelligence and Financial Engineering**.
 
-This project is educational and beginner-friendly. It is not a production trading system. This project is an educational small-scale GPT-2 style implementation. It includes the core GPT-2 components such as token embedding, positional embedding, masked multi-head self-attention, feed-forward network, transformer block, and text generation. The purpose is to demonstrate the structure clearly enough for function-by-function explanation in an oral test.
+I kept the project small on purpose. My goal is not to build a production trading bot or a huge language model. My goal is to make a runnable project that I can explain clearly, file by file and function by function, during an oral test.
 
-## Project Overview
+The project has two connected parts:
 
-This repository has two parts:
+1. A mock automatic trading walkthrough inspired by the Korea Investment Securities API, also called 한국투자증권 API or KIS API.
+2. A small-scale educational GPT-2 style implementation with the main transformer components.
 
-1. **Mock automatic trading system**
-   - Based on the concept of Korea Investment Securities API, also called **한국투자증권 API** or **KIS API**.
-   - Runs in mock mode by default.
-   - Uses fake stock prices.
-   - Prints simulated `BUY`, `SELL`, or `HOLD` signals.
-   - Never places a real order by default.
+The GPT-2 part includes token embedding, positional embedding, masked multi-head self-attention, feed-forward network, transformer block, and text generation. The purpose is to demonstrate the structure clearly enough for beginner-level explanation.
 
-2. **Mini GPT-2 demo**
-   - Uses Python and PyTorch.
-   - Builds a very small GPT-style transformer.
-   - Trains quickly on a tiny text string.
-   - Generates a short sample of text.
-
-## File Structure
+## Project Structure
 
 ```text
 AI_Financial_Engineering_Final_Project/
-├── README.md
-├── requirements.txt
-├── .gitignore
-├── .env.example
-│
-├── trading_system/
-│   ├── __init__.py
-│   ├── config.py
-│   ├── kis_auth.py
-│   ├── kis_market.py
-│   ├── strategy.py
-│   └── main.py
-│
-├── gpt2_demo/
-│   ├── __init__.py
-│   ├── model.py
-│   ├── train_demo.py
-│   └── generate_demo.py
-│
-└── results/
-    ├── trading_sample_output.txt
-    └── gpt_sample_output.txt
+|-- README.md
+|-- requirements.txt
+|-- .gitignore
+|-- .env.example
+|-- trading_system/
+|   |-- __init__.py
+|   |-- config.py
+|   |-- kis_auth.py
+|   |-- kis_market.py
+|   |-- strategy.py
+|   `-- main.py
+|-- gpt2_demo/
+|   |-- __init__.py
+|   |-- model.py
+|   |-- train_demo.py
+|   `-- generate_demo.py
+`-- results/
+    |-- trading_sample_output.txt
+    `-- gpt_sample_output.txt
 ```
 
 ## Installation
 
-Use this command from the project root:
+Run this from the project root:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-If your computer needs the CPU-only PyTorch package, use the installation command recommended on the official PyTorch website for your operating system.
+The project uses PyTorch for the GPT demo. It does not require a GPU.
 
-Do **not** create or commit a real `.env` file for this project. The included `.env.example` contains fake placeholder values only.
+Important safety note: do not create or commit a real `.env` file. This repository only includes `.env.example`, and the values inside it are fake placeholders.
 
 ## How To Run
 
-Run the mock trading system:
+Run the mock trading walkthrough:
 
 ```bash
 python -m trading_system.main
@@ -81,42 +68,56 @@ Run the GPT text generation demo:
 python -m gpt2_demo.generate_demo
 ```
 
-## Trading System Explanation
+## Part 1: My Mock KIS Trading Walkthrough
+
+### What This Part Shows
+
+This part shows the basic shape of an automatic trading system without touching a real brokerage account.
+
+The workflow is:
+
+1. Read safe settings.
+2. Get a mock access token.
+3. Load fake stock price data.
+4. Calculate a five-price moving average.
+5. Compare the latest price with the average.
+6. Print `BUY`, `SELL`, or `HOLD`.
+7. Print a short risk-management reminder.
 
 ### What Is An API?
 
-An **API** means Application Programming Interface. It is a way for one program to request data or services from another program.
+An API is a way for one program to talk to another program. In a real financial system, an API could be used to request stock prices, check account data, or place orders.
 
-In finance, an API can let a program request stock prices, check account information, or place orders. This project only demonstrates the idea and uses mock data.
+In this project, the API idea is only simulated. The program does not contact a real KIS server.
 
 ### What Is KIS API?
 
-**KIS API** means Korea Investment Securities API, or **한국투자증권 API**. A real KIS API can be used to connect software with Korea Investment Securities services.
+KIS API means Korea Investment Securities API, or 한국투자증권 API. A real KIS API can connect software to brokerage services.
 
-In this project, KIS API is only used as an educational concept:
+In my project, KIS API is used only as a concept:
 
 - authentication concept
 - access token concept
 - market price request concept
 - trading signal concept
 
-No real KIS API request is made in the default program.
+No real KIS API request is made by default.
 
 ### What Is An Access Token?
 
-An access token is like a temporary permission pass. After a real API checks the app key and app secret, it may return an access token. The program then sends that token when requesting data.
+An access token is like a temporary permission pass. A real API usually gives a token after checking app credentials.
 
-In mock mode, this project returns:
+In this project, mock mode returns:
 
 ```text
 mock_access_token
 ```
 
-This is fake and safe.
+That token is fake. It is only printed so I can explain where a token would appear in the workflow.
 
 ### What Is Mock Mode?
 
-Mock mode means the project uses fake data instead of connecting to a real API.
+Mock mode means the program uses fake sample data instead of a real API.
 
 In `trading_system/config.py`, the default is:
 
@@ -124,11 +125,11 @@ In `trading_system/config.py`, the default is:
 MOCK_MODE = True
 ```
 
-Because mock mode is enabled, the project can run without real API keys.
+This is why the trading demo can run without API keys.
 
 ### What Is Dry-Run Mode?
 
-Dry-run mode means the program only shows what it would do. It does not place real orders.
+Dry-run mode means the program only explains what it would do. It does not place an order.
 
 In `trading_system/config.py`, the default is:
 
@@ -136,133 +137,139 @@ In `trading_system/config.py`, the default is:
 DRY_RUN = True
 ```
 
-### Trading Strategy
+### My Trading Rule
 
-The strategy uses a moving average:
+The trading rule is intentionally simple:
 
-1. Calculate the average of the most recent prices.
-2. Compare the current price with the moving average.
-3. Print a signal:
-   - `BUY`: current price is lower than the moving average by more than the threshold.
-   - `SELL`: current price is higher than the moving average by more than the threshold.
-   - `HOLD`: current price is close to the moving average.
+1. Calculate the average of the latest five prices.
+2. Compare the latest price with that average.
+3. Use a 1.8% buffer so tiny price movement does not automatically become a signal.
 
-The threshold is `0.02`, which means 2%.
+The signal rule is:
+
+- `BUY`: latest price is more than 1.8% below the moving average.
+- `SELL`: latest price is more than 1.8% above the moving average.
+- `HOLD`: latest price is inside the 1.8% buffer.
+
+With the current mock data, the latest price dips below the average enough to produce an easy-to-explain `BUY` signal.
+
+### Risk-Management Note
+
+The output includes a risk note because real trading decisions should never depend on one signal only. A real system should also check cash, position size, stop-loss rules, and daily loss limits.
+
+This project does none of those real trading actions. It only prints a simulated signal.
 
 ## Trading Files: Function By Function
 
 ### `trading_system/config.py`
 
 - `read_bool_env(name, default)`
-  - Reads optional environment variables such as `MOCK_MODE`.
-  - Converts text like `true` or `false` into a Python boolean.
+  - Reads a true/false setting if it exists.
+  - Mock mode does not require a `.env` file.
 
 - `validate_safety_settings()`
-  - Checks that dangerous settings are not accidentally enabled.
-  - Helps keep this project safe for public upload and classroom use.
+  - Stops unsafe setting combinations.
+  - Keeps real trading disabled by default.
 
 Important values:
 
 - `MOCK_MODE = True`
 - `DRY_RUN = True`
 - `REAL_TRADING_ENABLED = False`
+- `THRESHOLD_PERCENT = 0.018`
 - `STOCK_SYMBOL = "005930"`
 
 ### `trading_system/kis_auth.py`
 
 - `get_access_token()`
-  - If mock mode is enabled, returns `mock_access_token`.
-  - If real mode is enabled, calls the safe template function.
+  - Returns `mock_access_token` in mock mode.
+  - This represents the place where a real access token would appear.
 
 - `request_real_access_token_template()`
-  - Explains how real token authentication would work.
-  - Does not make a real request.
-  - Does not include real secrets.
+  - Shows the safe structure of real authentication.
+  - Does not make a real network request.
+  - Does not include secrets.
 
 ### `trading_system/kis_market.py`
 
 - `get_stock_price(access_token, symbol)`
-  - Gets price data.
-  - Uses fake sample prices in mock mode.
+  - Gets stock data.
+  - Uses mock data by default.
 
 - `get_mock_stock_price(symbol)`
-  - Returns sample price history and current price.
+  - Returns a short fake price history.
+  - The default stock code is `005930`.
 
 - `request_real_stock_price_template(access_token, symbol)`
-  - Shows the structure of a real market price request.
-  - Stays disabled for safety.
+  - Shows where a real market price request would go.
+  - Stays disabled for this educational project.
 
 ### `trading_system/strategy.py`
 
 - `calculate_moving_average(prices, window)`
-  - Calculates the average of the latest prices.
+  - Takes the latest prices and calculates their average.
 
 - `generate_signal(current_price, moving_average, threshold_percent)`
+  - Compares the latest price to the moving average.
   - Returns `BUY`, `SELL`, or `HOLD`.
-  - Also returns a simple explanation.
+  - Also returns a plain-English reason.
 
 ### `trading_system/main.py`
 
 - `build_output_text(...)`
-  - Formats the result for the console.
+  - Creates the terminal report with renamed labels and a risk note.
 
 - `save_sample_output(output_text)`
-  - Saves the output into `results/trading_sample_output.txt`.
+  - Saves the same terminal text to `results/trading_sample_output.txt`.
 
 - `run_trading_demo()`
-  - Runs the full workflow:
-    - safety check
-    - mock access token
-    - mock price request
-    - moving average
-    - signal generation
-    - output saving
+  - Runs the whole mock workflow in order.
 
-## GPT-2 Explanation
+## Part 2: My Small GPT-2 Style Demo
+
+### What This Part Shows
+
+This part is a small character-level transformer. It is not meant to create high-quality text. It is meant to show the main ideas behind GPT in code that is short enough to explain.
 
 ### What Is GPT?
 
-GPT means Generative Pre-trained Transformer. It predicts the next token from previous tokens. Repeating that prediction many times creates generated text.
+GPT means Generative Pre-trained Transformer. In simple words, it predicts the next token from previous tokens.
 
-This project uses characters as tokens to keep the demo small.
-
-### What Is A Transformer?
-
-A transformer is a neural network architecture that uses attention. Attention lets the model decide which earlier tokens are important for predicting the next token.
+In this demo, each character is a token. That keeps the tokenizer very simple.
 
 ### Token Embedding
 
-Token embedding converts token IDs into vectors. A vector is a list of numbers that the neural network can learn from.
+Token embedding turns token IDs into vectors. The model cannot learn directly from letters, so it learns from number vectors.
 
 ### Positional Embedding
 
-A transformer needs position information because attention alone does not know token order. Positional embedding adds information such as "this is character position 1" or "this is character position 2".
+Attention does not automatically know the order of characters. Positional embedding adds information about where each character is located.
 
 ### Q, K, V
 
 In attention:
 
-- `Q` means Query: what the current token is looking for.
-- `K` means Key: what each token offers.
-- `V` means Value: the information copied after attention chooses where to look.
+- `Q` means query: what the current position is looking for.
+- `K` means key: what each position offers.
+- `V` means value: the information that gets copied after attention weights are calculated.
 
 ### Masked Self-Attention
 
-Masked self-attention prevents the model from seeing future tokens. This is important because GPT predicts the next token using only previous tokens.
+GPT predicts the next token, so it should not look at future tokens. The mask hides future positions.
 
-Example: when predicting character 5, the model should not look at character 6.
+Example: when the model predicts character 5, it may look at characters 1 to 5, but not character 6.
 
 ### Multi-Head Attention
 
-Multi-head attention means the model uses several attention heads at the same time. Each head can learn a different pattern.
+Multi-head attention means the model has several attention heads at the same time. Each head can learn a different kind of relationship.
 
 ### Feed-Forward Network
 
-The feed-forward network is a small neural network inside each transformer block. It processes the information after attention.
+The feed-forward network is a small neural network after attention. It processes the information at each position.
 
 ### Transformer Block
 
-A transformer block contains:
+A transformer block combines:
 
 1. Layer normalization
 2. Masked multi-head self-attention
@@ -273,19 +280,19 @@ A transformer block contains:
 
 ### Text Generation
 
-The model receives a prompt, predicts the next character, adds that character to the prompt, then repeats the process.
+The model starts with a prompt, predicts the next character, adds it to the prompt, then repeats the same step.
 
 ## GPT Files: Function By Function
 
 ### `gpt2_demo/model.py`
 
 - `CharTokenizer`
-  - Converts text to character IDs.
-  - Converts character IDs back to text.
+  - Converts characters to token IDs.
+  - Converts token IDs back to characters.
 
 - `MultiHeadSelfAttention`
   - Builds Q, K, and V.
-  - Applies a future-token mask.
+  - Applies the future-token mask.
   - Combines multiple attention heads.
 
 - `FeedForward`
@@ -296,19 +303,19 @@ The model receives a prompt, predicts the next character, adds that character to
 
 - `MiniGPT`
   - Combines token embedding, positional embedding, transformer blocks, final layer normalization, and output layer.
-  - Includes `generate()` for text generation.
+  - Includes `generate()` for simple text generation.
 
 ### `gpt2_demo/train_demo.py`
 
 - `create_model_and_tokenizer()`
-  - Creates the tokenizer and small model.
+  - Creates the tokenizer and the small model.
 
 - `get_batch(data, block_size, batch_size)`
-  - Creates small random training examples from the tiny text.
+  - Selects short training examples from the tiny text dataset.
 
 - `train_model(steps=80, show_loss=True)`
-  - Trains for a small number of steps.
-  - Prints loss so we can see training progress.
+  - Trains the model briefly.
+  - Prints loss so I can show that learning is happening.
 
 - `main()`
   - Runs the training demo.
@@ -316,12 +323,12 @@ The model receives a prompt, predicts the next character, adds that character to
 ### `gpt2_demo/generate_demo.py`
 
 - `save_sample_output(output_text)`
-  - Saves generated text into `results/gpt_sample_output.txt`.
+  - Saves the generation result to `results/gpt_sample_output.txt`.
 
 - `run_generation_demo()`
   - Trains briefly in memory.
-  - Starts with the prompt `ai`.
-  - Generates short text.
+  - Starts from the prompt `ai`.
+  - Generates a short character-level text sample.
 
 - `main()`
   - Runs the generation demo.
@@ -331,16 +338,17 @@ The model receives a prompt, predicts the next character, adds that character to
 ### Trading Sample
 
 ```text
-=== Mock KIS API Trading System Demo ===
-Mode: MOCK
-Dry run: True
-Access token concept: mock_access_token
-Stock symbol: 005930
-Current price: 71,500 KRW
-Moving average: 73,300.00 KRW
-Generated signal: BUY
-Explanation: Current price is below the moving average by more than the threshold, so the mock strategy prints BUY.
-Order status: No real order was placed. This is a simulation only.
+=== My Mock KIS Trading Walkthrough ===
+Practice mode: mock prices
+Safety switch: dry_run=True
+Lesson token: mock_access_token
+Classroom stock code: 005930
+Latest mock price: 71,700 KRW
+Five-price average: 73,100.00 KRW
+My strategy signal: BUY
+Reason I can explain: The price is 1.92% below the moving average, which is more than the 1.8% buffer. My demo prints BUY.
+Risk note: A real system should check cash, position size, stop-loss, and daily loss limit before any order. This demo stops at a printed signal.
+Execution note: No real order was placed. This is a simulation only.
 ```
 
 ### GPT Sample
@@ -352,7 +360,7 @@ Prompt: ai
 Generated text: aikel ol nd bud lear gpt. caler a morar padet bud. mo. ol lder ar gp han od fl olk
 ```
 
-The generated text is not perfect English because the model is intentionally tiny. The purpose is to demonstrate the GPT structure.
+The generated text is strange because the model is very small and trains only briefly. That is acceptable here because the purpose is to explain the GPT structure, not to produce perfect language.
 
 ## Safety Notes
 
@@ -373,87 +381,87 @@ The generated text is not perfect English because the model is intentionally tin
 
 English:
 
-> This project has two parts. The first part is a mock automatic trading system based on the concept of the Korea Investment Securities API. It demonstrates authentication, access token usage, market price requests, and a simple moving-average trading signal. It runs in mock mode, so it does not need real API keys and does not place real orders. The second part is a mini GPT-2 demo using PyTorch. It includes token embeddings, positional embeddings, masked multi-head self-attention, transformer blocks, and simple text generation. The goal is not production performance, but understanding the core ideas of AI and financial engineering.
+> My project has two parts. First, I made a mock KIS-style automatic trading system. It does not use real API keys and it does not place real orders. It only demonstrates the workflow: token, mock price data, moving average, signal, and risk note. Second, I made a small GPT-2 style model in PyTorch. It includes token embedding, positional embedding, masked multi-head self-attention, feed-forward network, transformer block, and text generation. I designed the project to be simple enough to explain function by function.
 
 Korean:
 
-> 이 프로젝트는 두 부분으로 구성되어 있습니다. 첫 번째는 한국투자증권 API 개념을 활용한 모의 자동매매 시스템입니다. 인증, access token, 주가 요청, 이동평균 기반 매매 신호를 보여 줍니다. 기본 설정은 mock mode이기 때문에 실제 API 키가 필요 없고 실제 주문도 실행하지 않습니다. 두 번째는 PyTorch로 만든 작은 GPT-2 구조 데모입니다. token embedding, positional embedding, masked multi-head self-attention, transformer block, text generation을 포함합니다. 목적은 고성능 모델 제작이 아니라 핵심 개념을 이해하고 설명하는 것입니다.
+> 제 프로젝트는 두 부분으로 구성되어 있습니다. 첫 번째는 한국투자증권 KIS API 개념을 참고한 모의 자동매매 시스템입니다. 실제 API 키를 사용하지 않고 실제 주문도 실행하지 않습니다. access token 개념, 모의 주가 데이터, 이동평균, 매매 신호, 위험관리 메모를 보여 줍니다. 두 번째는 PyTorch로 만든 작은 GPT-2 스타일 모델입니다. token embedding, positional embedding, masked multi-head self-attention, feed-forward network, transformer block, text generation을 포함합니다. 전체 목적은 각 함수를 쉽게 설명할 수 있는 교육용 프로젝트를 만드는 것입니다.
 
 Chinese:
 
-> 这个项目分成两部分。第一部分是一个模拟自动交易系统，用来展示韩国投资证券 KIS API 的概念，包括认证、access token、行情请求和移动平均线交易信号。默认是 mock mode，所以不需要真实 API key，也不会下真实订单。第二部分是一个很小的 GPT-2 风格模型，用 PyTorch 展示 embedding、masked self-attention、transformer block 和文本生成。重点是理解和讲解原理，不是做高性能系统。
+> 我的项目分为两部分。第一部分是参考韩国投资证券 KIS API 概念做的模拟自动交易系统。它不使用真实 API key，也不会下真实订单，只展示 access token、模拟价格、移动平均线、交易信号和风险管理说明。第二部分是用 PyTorch 写的小型 GPT-2 风格模型，包括 token embedding、positional embedding、masked multi-head self-attention、feed-forward network、transformer block 和 text generation。重点是方便我在口试中逐个函数解释。
 
-### Likely Professor Questions And Simple Answers
+### Likely Professor Questions
 
 #### Q1. What is mock mode?
 
 Korean answer:
 
-> Mock mode는 실제 API에 접속하지 않고 가짜 데이터를 사용하는 모드입니다. 그래서 API 키 없이도 프로그램을 실행할 수 있고 안전합니다.
+> Mock mode는 실제 API에 접속하지 않고 가짜 데이터를 사용하는 모드입니다. 그래서 API 키 없이도 안전하게 실행할 수 있습니다.
 
 Chinese explanation:
 
-> Mock mode 就是不连接真实 API，只用假数据运行，所以安全、容易演示。
+> Mock mode 就是不连接真实 API，只使用假数据运行，所以安全，也方便演示。
 
 #### Q2. What is dry-run mode?
 
 Korean answer:
 
-> Dry-run mode는 실제 주문을 넣지 않고, 주문을 넣는다면 어떤 결과가 나올지 출력만 하는 방식입니다.
+> Dry-run mode는 실제 주문을 넣지 않고 결과만 출력하는 연습 모드입니다.
 
 Chinese explanation:
 
-> Dry-run mode 表示只打印模拟结果，不会真的买卖股票。
+> Dry-run mode 是练习模式，只打印模拟结果，不会真的买卖股票。
 
-#### Q3. How does the trading strategy decide BUY or SELL?
+#### Q3. How does the strategy decide BUY, SELL, or HOLD?
 
 Korean answer:
 
-> 현재 가격이 이동평균보다 2% 이상 낮으면 BUY, 2% 이상 높으면 SELL, 그 사이이면 HOLD를 출력합니다.
+> 최근 다섯 가격의 이동평균을 계산한 다음 현재 가격과 비교합니다. 현재 가격이 평균보다 1.8% 이상 낮으면 BUY, 1.8% 이상 높으면 SELL, 그 사이이면 HOLD입니다.
 
 Chinese explanation:
 
-> 当前价格比移动平均低超过 2% 就 BUY，高超过 2% 就 SELL，否则 HOLD。
+> 先计算最近五个价格的移动平均。如果当前价格比平均值低超过 1.8%，就是 BUY；高超过 1.8%，就是 SELL；否则就是 HOLD。
 
-#### Q4. What is an access token?
+#### Q4. Why did you add a risk note?
 
 Korean answer:
 
-> Access token은 API 서버가 클라이언트에게 주는 임시 인증 정보입니다. 이후 요청에서 이 토큰을 사용해 권한을 증명합니다.
+> 실제 거래에서는 하나의 신호만 보고 주문하면 위험합니다. 현금, 보유 수량, 손절선, 하루 손실 한도 같은 위험관리 조건도 확인해야 하기 때문에 출력에 위험관리 메모를 넣었습니다.
 
 Chinese explanation:
 
-> Access token 就像临时通行证，证明程序有权限访问 API。
+> 真实交易不能只看一个信号，还要检查现金、仓位、止损和每日亏损限制。所以我在输出里加入风险管理提醒。
 
-#### Q5. Why is masked self-attention needed in GPT?
+#### Q5. What is an access token?
 
 Korean answer:
 
-> GPT는 다음 토큰을 예측해야 하므로 미래 토큰을 보면 안 됩니다. Masked self-attention은 미래 위치를 가려서 이전 정보만 보게 합니다.
+> Access token은 API 서버가 클라이언트에게 주는 임시 인증 정보입니다. 이후 요청에서 권한을 증명할 때 사용합니다.
 
 Chinese explanation:
 
-> GPT 预测下一个 token，不能偷看未来，所以需要 mask 把后面的 token 遮住。
+> Access token 像一个临时通行证，用来证明程序有权限访问 API。
 
-#### Q6. What are Q, K, and V?
+#### Q6. Why is masked self-attention needed?
 
 Korean answer:
 
-> Q는 query로 현재 위치가 찾는 정보이고, K는 key로 각 위치가 가진 특징이며, V는 value로 실제로 전달되는 정보입니다.
+> GPT는 다음 토큰을 예측하는 모델이기 때문에 미래 토큰을 보면 안 됩니다. mask는 미래 위치를 가려서 이전 정보만 보게 합니다.
 
 Chinese explanation:
 
-> Q 是查询，K 是匹配用的键，V 是真正被加权传递的信息。
+> GPT 预测下一个 token，不能偷看未来，所以 mask 会遮住后面的 token。
 
-#### Q7. Why is this model not a full GPT-2?
+#### Q7. Why is your GPT model small?
 
 Korean answer:
 
-> 이 모델은 교육용으로 만든 매우 작은 character-level transformer입니다. GPT-2의 핵심 구조는 보여 주지만, 실제 GPT-2처럼 큰 데이터와 큰 모델을 사용하지 않습니다.
+> 이 프로젝트의 목적은 성능이 아니라 구조 설명입니다. 그래서 character-level tokenizer와 작은 transformer를 사용해서 embedding, attention, block, generation 과정을 쉽게 보여 주었습니다.
 
 Chinese explanation:
 
-> 这个模型只是教学版，结构像 GPT，但是规模很小，用字符训练，不是完整的大型 GPT-2。
+> 这个项目重点不是模型性能，而是解释结构。所以我用字符级 tokenizer 和小型 transformer，让 embedding、attention、block 和 generation 更容易讲清楚。
 
 ## Public GitHub Safety Check
 
@@ -463,5 +471,7 @@ This repository is safe to upload publicly because:
 - `.env` is ignored.
 - `.env.example` uses fake values only.
 - Mock mode is the default.
+- Dry-run mode is the default.
 - Real trading is disabled.
 - Real API functions are templates only.
+

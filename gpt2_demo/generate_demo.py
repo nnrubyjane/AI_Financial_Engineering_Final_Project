@@ -1,4 +1,4 @@
-"""Generate a short text sample with the tiny GPT-style model."""
+"""Generate a short text sample with my tiny GPT-style model."""
 
 from pathlib import Path
 
@@ -8,7 +8,7 @@ from gpt2_demo.train_demo import MODEL_SETTINGS, train_model
 
 
 def save_sample_output(output_text):
-    """Save the generation output to the results folder."""
+    """Save the terminal output so the README has a matching example."""
     project_root = Path(__file__).resolve().parents[1]
     output_path = project_root / "results" / "gpt_sample_output.txt"
     output_path.parent.mkdir(exist_ok=True)
@@ -16,7 +16,7 @@ def save_sample_output(output_text):
 
 
 def run_generation_demo():
-    """Train briefly, then generate a small text sample."""
+    """Train briefly, then ask the model to continue a small prompt."""
     torch.manual_seed(42)
     model, tokenizer, _ = train_model(steps=80, show_loss=False)
     model.eval()
@@ -41,10 +41,9 @@ def run_generation_demo():
 
 
 def main():
-    """Run the generation demo."""
+    """Run the generation demo from the terminal."""
     print(run_generation_demo())
 
 
 if __name__ == "__main__":
     main()
-
