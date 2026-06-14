@@ -2,7 +2,7 @@
 
 This is my final project for the university course **Artificial Intelligence and Financial Engineering**.
 
-I kept the project small on purpose. My goal is not to build a production trading bot or a huge language model. My goal is to make a runnable project that I can explain clearly, file by file and function by function, during an oral test.
+I kept the project small on purpose. My goal is not to build a production trading bot or a huge language model. My goal is to make a runnable project with clear code, sample outputs, trading records, and documentation that can be evaluated through GitHub.
 
 The project has two connected parts:
 
