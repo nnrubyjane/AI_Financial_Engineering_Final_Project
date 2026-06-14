@@ -19,12 +19,15 @@ AI_Financial_Engineering_Final_Project/
 |-- requirements.txt
 |-- .gitignore
 |-- .env.example
+|-- data/
+|   `-- finance_ai_dataset.txt
 |-- trading_system/
 |   |-- __init__.py
 |   |-- config.py
 |   |-- kis_auth.py
 |   |-- kis_market.py
 |   |-- strategy.py
+|   |-- backtest_demo.py
 |   `-- main.py
 |-- gpt2_demo/
 |   |-- __init__.py
@@ -33,6 +36,8 @@ AI_Financial_Engineering_Final_Project/
 |   `-- generate_demo.py
 `-- results/
     |-- trading_sample_output.txt
+    |-- trade_log.csv
+    |-- trade_log.txt
     `-- gpt_sample_output.txt
 ```
 
@@ -56,6 +61,12 @@ Run the mock trading walkthrough:
 python -m trading_system.main
 ```
 
+Run the mock trading backtest and create trade records:
+
+```bash
+python -m trading_system.backtest_demo
+```
+
 Run the GPT training demo:
 
 ```bash
@@ -67,6 +78,33 @@ Run the GPT text generation demo:
 ```bash
 python -m gpt2_demo.generate_demo
 ```
+
+## Trading Record
+
+This project prepares simulated automatic trading records for GitHub grading. The records are created with mock prices and `dry_run=True`, so they are only practice records. They do not come from a real KIS API account, and no real order is placed.
+
+Run this command to regenerate the trading records:
+
+```bash
+python -m trading_system.backtest_demo
+```
+
+The generated files are:
+
+- [results/trade_log.csv](results/trade_log.csv)
+- [results/trade_log.txt](results/trade_log.txt)
+
+The CSV file is useful for checking the records like a spreadsheet. The text file is useful for reading the simulated steps in a simple report format. Each record includes the step, symbol, current price, moving average, signal, reason, dry-run value, and order status.
+
+## GPT-2 Dataset
+
+This project does **not** use Tiny Shakespeare. The GPT-2 demo trains on a small custom English dataset about artificial intelligence, financial engineering, stock prices, trading signals, risk management, and GPT models.
+
+Dataset file:
+
+- [data/finance_ai_dataset.txt](data/finance_ai_dataset.txt)
+
+The dataset is intentionally small so the tiny GPT-style model can train quickly on a normal laptop. It is used only for educational demonstration.
 
 ## Running Results
 
@@ -97,6 +135,7 @@ The workflow is:
 5. Compare the latest price with the average.
 6. Print `BUY`, `SELL`, or `HOLD`.
 7. Print a short risk-management reminder.
+8. Optionally run a mock backtest to save simulated trade records.
 
 ### What Is An API?
 
@@ -239,11 +278,29 @@ Important values:
 - `run_trading_demo()`
   - Runs the whole mock workflow in order.
 
+### `trading_system/backtest_demo.py`
+
+- `build_trade_records()`
+  - Simulates several mock price steps.
+  - Creates BUY, SELL, or HOLD records using the same moving-average strategy.
+
+- `save_trade_log_csv(records, output_path)`
+  - Saves the simulated records to `results/trade_log.csv`.
+
+- `save_trade_log_txt(records, output_path)`
+  - Saves the same records to `results/trade_log.txt` in a readable report format.
+
+- `run_backtest_demo()`
+  - Runs the mock backtest and writes both trade-log files.
+  - Keeps the result clearly marked as simulation only.
+
 ## Part 2: My Small GPT-2 Style Demo
 
 ### What This Part Shows
 
-This part is a small character-level transformer. It is not meant to create high-quality text. It is meant to show the main ideas behind GPT in code that is short enough to explain.
+This part is a small character-level transformer trained on `data/finance_ai_dataset.txt`. It is not meant to create high-quality text. It is meant to show the main ideas behind GPT in code that is short enough to explain.
+
+The dataset is a custom finance-and-AI dataset. It is not Tiny Shakespeare.
 
 ### What Is GPT?
 
@@ -298,6 +355,12 @@ The model starts with a prompt, predicts the next character, adds it to the prom
 
 ## GPT Files: Function By Function
 
+### `data/finance_ai_dataset.txt`
+
+- Contains the small custom training dataset.
+- The text is about artificial intelligence, financial engineering, stock prices, trading signals, risk management, and GPT models.
+- It is included so the GPT demo trains on a project-specific dataset instead of Tiny Shakespeare.
+
 ### `gpt2_demo/model.py`
 
 - `CharTokenizer`
@@ -321,13 +384,17 @@ The model starts with a prompt, predicts the next character, adds it to the prom
 
 ### `gpt2_demo/train_demo.py`
 
+- `load_training_text()`
+  - Reads the custom dataset from `data/finance_ai_dataset.txt`.
+  - This dataset is not Tiny Shakespeare.
+
 - `create_model_and_tokenizer()`
-  - Creates the tokenizer and the small model.
+  - Creates the tokenizer and the small model from the custom dataset.
 
 - `get_batch(data, block_size, batch_size)`
-  - Selects short training examples from the tiny text dataset.
+  - Selects short training examples from the custom finance-and-AI dataset.
 
-- `train_model(steps=80, show_loss=True)`
+- `train_model(steps=60, show_loss=True)`
   - Trains the model briefly.
   - Prints loss so I can show that learning is happening.
 
@@ -346,6 +413,16 @@ The model starts with a prompt, predicts the next character, adds it to the prom
 
 - `main()`
   - Runs the generation demo.
+
+### `results/trade_log.csv`
+
+- Stores the simulated trading records in CSV format.
+- Includes step, symbol, current price, moving average, signal, reason, dry-run value, and order status.
+
+### `results/trade_log.txt`
+
+- Stores the same simulated trading records in a readable text format.
+- Clearly states that the records are simulation only and no real order was placed.
 
 ## Sample Outputs
 
@@ -369,9 +446,13 @@ Execution note: No real order was placed. This is a simulation only.
 
 ```text
 === Mini GPT-2 Text Generation Demo ===
+Dataset: data\finance_ai_dataset.txt
+Dataset note: custom finance-and-AI text, not Tiny Shakespeare.
 Block size: 32
 Prompt: ai
-Generated text: aikel ol nd bud lear gpt. caler a morar padet bud. mo. ol lder ar gp han od fl olk
+Generated text: ais t ariT zisulanoreria p t s anftinein pisitiu
+o s.ag hro anere ten, a
+g.tieayee
 ```
 
 The generated text is strange because the model is very small and trains only briefly. That is acceptable here because the purpose is to explain the GPT structure, not to produce perfect language.

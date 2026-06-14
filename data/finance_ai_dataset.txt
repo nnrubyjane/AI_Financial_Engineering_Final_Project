@@ -1,0 +1,36 @@
+Artificial intelligence can help students study financial engineering.
+Financial engineering uses math, data, and computer programs to understand markets.
+A stock price moves every day because many investors buy and sell shares.
+A trading signal is a simple message such as BUY, SELL, or HOLD.
+In this project the trading system uses mock prices, so it does not place real orders.
+Dry run mode means the program explains the decision but does not send an order.
+Risk management is important because every trading idea can be wrong.
+A careful trader checks position size, cash, stop loss, and daily loss limit.
+Moving averages are useful because they smooth noisy price changes.
+If the current price is far below the moving average, a simple demo may print BUY.
+If the current price is far above the moving average, a simple demo may print SELL.
+If the current price is close to the moving average, a simple demo may print HOLD.
+The KIS API concept shows how a program could request authentication and market data.
+This classroom project uses a mock access token instead of a real secret.
+No real app key, app secret, account number, or password is stored in the code.
+The goal is to understand the workflow, not to run a production trading bot.
+GPT models learn patterns in token sequences and predict the next token.
+This mini GPT model uses characters as tokens to keep the code easy to read.
+Token embedding changes token numbers into vectors that the neural network can learn.
+Positional embedding tells the transformer where each token appears in the sequence.
+Masked self attention prevents the model from looking at future tokens.
+Multi head attention lets the model study several relationships at the same time.
+A feed forward network processes the information after attention.
+A transformer block combines attention, feed forward layers, normalization, and residual paths.
+Text generation starts with a prompt and adds one new token at a time.
+The generated text is not perfect because the model and dataset are intentionally small.
+This dataset is a custom finance and artificial intelligence dataset for education.
+It is not Tiny Shakespeare, and it does not contain play dialogue.
+It focuses on artificial intelligence, stock prices, trading signals, risk management, and GPT models.
+Small examples can still show the main ideas when the code is clear.
+Students can read each function and connect it to one part of the workflow.
+The trading record file keeps simulated signals so the result can be inspected later.
+Each record includes the step, symbol, current price, moving average, signal, and order status.
+Every order status says simulation only because no real order is sent.
+This project is safe for GitHub grading because it uses mock data and fake placeholders only.
+

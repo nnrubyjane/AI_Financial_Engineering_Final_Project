@@ -1,0 +1,7 @@
+step,symbol,current_price,moving_average,signal,reason,dry_run,order_status
+1,005930,73300,73400.0,HOLD,"The price is only 0.14% away from the moving average, inside the 1.8% buffer. My demo prints HOLD.",True,SIMULATION ONLY - no real order was placed
+2,005930,71700,73100.0,BUY,"The price is 1.92% below the moving average, which is more than the 1.8% buffer. My demo prints BUY.",True,SIMULATION ONLY - no real order was placed
+3,005930,72000,72800.0,HOLD,"The price is only 1.10% away from the moving average, inside the 1.8% buffer. My demo prints HOLD.",True,SIMULATION ONLY - no real order was placed
+4,005930,74400,73000.0,SELL,"The price is 1.92% above the moving average, which is more than the 1.8% buffer. My demo prints SELL.",True,SIMULATION ONLY - no real order was placed
+5,005930,75600,73400.0,SELL,"The price is 3.00% above the moving average, which is more than the 1.8% buffer. My demo prints SELL.",True,SIMULATION ONLY - no real order was placed
+6,005930,73900,73520.0,HOLD,"The price is only 0.52% away from the moving average, inside the 1.8% buffer. My demo prints HOLD.",True,SIMULATION ONLY - no real order was placed

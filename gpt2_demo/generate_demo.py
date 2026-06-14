@@ -4,7 +4,7 @@ from pathlib import Path
 
 import torch
 
-from gpt2_demo.train_demo import MODEL_SETTINGS, train_model
+from gpt2_demo.train_demo import DATASET_PATH, MODEL_SETTINGS, PROJECT_ROOT, train_model
 
 
 def save_sample_output(output_text):
@@ -18,7 +18,7 @@ def save_sample_output(output_text):
 def run_generation_demo():
     """Train briefly, then ask the model to continue a small prompt."""
     torch.manual_seed(42)
-    model, tokenizer, _ = train_model(steps=80, show_loss=False)
+    model, tokenizer, _ = train_model(steps=60, show_loss=False)
     model.eval()
 
     prompt = "ai"
@@ -31,6 +31,8 @@ def run_generation_demo():
     output_text = "\n".join(
         [
             "=== Mini GPT-2 Text Generation Demo ===",
+            f"Dataset: {DATASET_PATH.relative_to(PROJECT_ROOT)}",
+            "Dataset note: custom finance-and-AI text, not Tiny Shakespeare.",
             f"Block size: {MODEL_SETTINGS['block_size']}",
             f"Prompt: {prompt}",
             f"Generated text: {generated_text}",

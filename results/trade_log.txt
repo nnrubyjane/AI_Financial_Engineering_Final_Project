@@ -1,0 +1,58 @@
+=== Simulated Mock Trading Record ===
+Source: mock price data only
+Dry run: True
+Order status: simulation only; no real KIS API order was placed.
+
+Step 1
+  Symbol: 005930
+  Current price: 73,300 KRW
+  Moving average: 73,400.00 KRW
+  Signal: HOLD
+  Reason: The price is only 0.14% away from the moving average, inside the 1.8% buffer. My demo prints HOLD.
+  Dry run: True
+  Order status: SIMULATION ONLY - no real order was placed
+
+Step 2
+  Symbol: 005930
+  Current price: 71,700 KRW
+  Moving average: 73,100.00 KRW
+  Signal: BUY
+  Reason: The price is 1.92% below the moving average, which is more than the 1.8% buffer. My demo prints BUY.
+  Dry run: True
+  Order status: SIMULATION ONLY - no real order was placed
+
+Step 3
+  Symbol: 005930
+  Current price: 72,000 KRW
+  Moving average: 72,800.00 KRW
+  Signal: HOLD
+  Reason: The price is only 1.10% away from the moving average, inside the 1.8% buffer. My demo prints HOLD.
+  Dry run: True
+  Order status: SIMULATION ONLY - no real order was placed
+
+Step 4
+  Symbol: 005930
+  Current price: 74,400 KRW
+  Moving average: 73,000.00 KRW
+  Signal: SELL
+  Reason: The price is 1.92% above the moving average, which is more than the 1.8% buffer. My demo prints SELL.
+  Dry run: True
+  Order status: SIMULATION ONLY - no real order was placed
+
+Step 5
+  Symbol: 005930
+  Current price: 75,600 KRW
+  Moving average: 73,400.00 KRW
+  Signal: SELL
+  Reason: The price is 3.00% above the moving average, which is more than the 1.8% buffer. My demo prints SELL.
+  Dry run: True
+  Order status: SIMULATION ONLY - no real order was placed
+
+Step 6
+  Symbol: 005930
+  Current price: 73,900 KRW
+  Moving average: 73,520.00 KRW
+  Signal: HOLD
+  Reason: The price is only 0.52% away from the moving average, inside the 1.8% buffer. My demo prints HOLD.
+  Dry run: True
+  Order status: SIMULATION ONLY - no real order was placed
